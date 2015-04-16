@@ -31,11 +31,7 @@ do {
                 if (file_exists($dirPath . '.phar'))
                     @unlink($dirPath . '.phar');
                 print("Packaging...\r\n");
-                $phar = new Phar($dirPath . '.phar');
-                $phar->buildFromDirectory($dirPath);
-                $phar->compressFiles(Phar::GZ);
-                $phar->stopBuffering();
-                unset($phar);
+                package($dirPath);
                 print("Complete:" . $dirPath . ".phar\r\n");
             } else
                 print("Can not find directory " . $dirPath . "]\r\n");
@@ -48,4 +44,13 @@ do {
     }
     print($div);
 } while ($cmd != "exit");
+
+function package($dirPath)
+{
+    $phar = new Phar($dirPath . '.phar');
+    $phar->buildFromDirectory($dirPath);
+    $phar->compressFiles(Phar::GZ);
+    $phar->stopBuffering();
+    $phar->setStub('<?php require("phar://". __FILE__ ."/PHPCRAFT.php"); __HALT_COMPILER(); ?>');
+}
 ?>
