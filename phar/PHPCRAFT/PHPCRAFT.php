@@ -16,22 +16,15 @@ define("PROJECT_NAME", "PHPCRAFT");
 
 function __autoload($class)
 {
-    var_dump("phar://" . PROJECT_NAME . ".phar/" . str_replace("\\", "/", str_replace(PROJECT_NAME . "\\", "", $class)) . ".php");
     include "phar://" . PROJECT_NAME . ".phar/" . str_replace("\\", "/", str_replace(PROJECT_NAME . "\\", "", $class)) . ".php";
 }
 
 use PHPCRAFT\core\Main;
+use PHPCRAFT\core\Logger;
 
-//draw project logo
-try {
-    Main::drawLogo();
-} catch (Exception $e) {
-
-}
-
-
-echo "[INFO] PHPCRAFT Version 1.0\r\n";
-echo "[INFO] Server start\r\n";
+Main::drawLogo();
+Logger::info("PHPCRAFT Version 1.0");
+Logger::info("Server Start");
 
 if (!is_dir("config")) {
     mkdir("config");
@@ -43,6 +36,6 @@ if (!file_exists("./config/server.php")) {
 
 while (1) {
     echo "[INFO] Listening on port 127.0.0.1:8000\r\n";
-    sleep(2);
+    sleep(10);
 }
 
