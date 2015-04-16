@@ -12,13 +12,23 @@
  *
  */
 
-//draw project logo
+define("PROJECT_NAME", "PHPCRAFT");
+
+function __autoload($class)
+{
+    var_dump("phar://" . PROJECT_NAME . ".phar/" . str_replace("\\", "/", str_replace(PROJECT_NAME . "\\", "", $class)) . ".php");
+    include "phar://" . PROJECT_NAME . ".phar/" . str_replace("\\", "/", str_replace(PROJECT_NAME . "\\", "", $class)) . ".php";
+}
 
 use PHPCRAFT\core\Main;
 
-$main = new Main();
+//draw project logo
+try {
+    Main::drawLogo();
+} catch (Exception $e) {
 
-//    Main::drawLogo();
+}
+
 
 echo "[INFO] PHPCRAFT Version 1.0\r\n";
 echo "[INFO] Server start\r\n";
@@ -28,7 +38,7 @@ if (!is_dir("config")) {
 }
 
 if (!file_exists("./config/server.php")) {
-    copy('phar://PHPCRAFT.phar/config/server.php', './config/server.php');
+    copy("phar://PHPCRAFT.phar/config/server.php", "/config/server.php");
 }
 
 while (1) {
@@ -36,6 +46,3 @@ while (1) {
     sleep(2);
 }
 
-for ($i = 0; $i < 5; $i++) {
-    echo "[INFO]";
-}
